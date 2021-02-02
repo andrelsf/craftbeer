@@ -11,6 +11,10 @@ spring:
     url: jdbc:postgresql://10.62.0.254/craftbeer_dev
     username: postgres
     password: p0stgr3s
+  flyway:
+     user: postgres
+     password: p0stgr3s
+     schemas: public
   jpa:
     generate-ddl: false
     hibernate:
