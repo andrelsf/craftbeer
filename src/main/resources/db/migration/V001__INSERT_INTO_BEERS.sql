@@ -1,8 +1,8 @@
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -21,11 +21,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -44,11 +44,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -67,11 +67,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -90,11 +90,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -113,11 +113,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -136,11 +136,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -159,11 +159,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
@@ -182,11 +182,11 @@ VALUES
 
 --- 
 
-INSERT INTO public.beers
+INSERT INTO public.tb_beers
 (
    "name",
    ingredients,
-   alcoholcontent,
+   alcohol_content,
    price,
    category,
    create_at,
