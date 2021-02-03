@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,18 +31,17 @@ import com.beerhouse.domain.models.Beer;
 import com.beerhouse.domain.services.BeerService;
 
 @RestController
-@RequestMapping(value = BaseResource.BEER_V1)
+@RequestMapping(value = BaseResource.BEER_V1, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 public class BeerResource {
 
 	@Autowired
 	private BeerService service;
 
 	/**
-	 * Collection Resource
-	 * List of all paginated resource
-	 * By default page 0 of size 10
+	 * Collection Resource List of all paginated resource By default page 0 of size
+	 * 10
 	 * 
-	 * @param name optional
+	 * @param name     optional
 	 * @param pageable
 	 * @return Page<BeerResponse>
 	 */
@@ -58,8 +58,7 @@ public class BeerResource {
 	}
 
 	/**
-	 * Single-resource
-	 * Get single resource by id.
+	 * Single-resource Get single resource by id.
 	 * 
 	 * @param beerId
 	 * @return
@@ -107,7 +106,7 @@ public class BeerResource {
 	}
 
 	/**
-	 * Update partial content of a resource 
+	 * Update partial content of a resource
 	 * 
 	 * @param beerId
 	 * @param fields
@@ -118,7 +117,7 @@ public class BeerResource {
 		service.updatePartialContent(beerId, fields);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/**
 	 * Removes a resource by id
 	 * 
@@ -135,21 +134,3 @@ public class BeerResource {
 		return ResponseEntity.notFound().build();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import com.beerhouse.domain.models.Beer;
 import com.beerhouse.domain.models.Category;
 import com.beerhouse.domain.repositories.IBeerRespository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 @Service
 public class BeerService {
