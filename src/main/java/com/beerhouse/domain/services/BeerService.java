@@ -1,5 +1,9 @@
 package com.beerhouse.domain.services;
 
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +28,16 @@ public class BeerService {
 		Page<Beer> beers = repository.findByNameContaining(name, pageable);
 		return BeerResponse.convert(beers);
 	}
+
+	public Beer getBeerById(Long beerId) {
+		Optional<Beer> beer = repository.findById(beerId);
+		
+		if (beer.isPresent()) {
+			return beer.get();
+		}
+		
+		throw new EntityNotFoundException("Beer not found");
+	}
 	
-	 
+	
 }
