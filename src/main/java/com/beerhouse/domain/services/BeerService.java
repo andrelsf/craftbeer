@@ -48,6 +48,17 @@ public class BeerService {
 		repository.save(beer);
 		return beer;
 	}
+
+	public boolean deleteBeerById(Long beerId) {
+		Optional<Beer>  beer = repository.findById(beerId);
+		
+		if (beer.isPresent()) {
+			repository.deleteById(beerId);
+			return true;			
+		}
+		
+		return false;
+	}
 	
 	
 }

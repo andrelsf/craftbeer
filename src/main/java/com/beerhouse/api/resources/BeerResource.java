@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,4 +61,33 @@ public class BeerResource {
 
 		return ResponseEntity.created(uriLocation).body(new BeerResponse(beer));
 	}
+	
+	@DeleteMapping("/{beerId}")
+	public ResponseEntity<BeerResponse> deleteBeerById(@PathVariable Long beerId) {
+		if (service.deleteBeerById(beerId)) {
+			return ResponseEntity.ok().build();
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
