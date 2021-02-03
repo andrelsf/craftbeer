@@ -1,6 +1,7 @@
 package com.beerhouse.api.resources;
 
 import java.net.URI;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -12,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -71,6 +73,13 @@ public class BeerResource {
 		return ResponseEntity.ok(new BeerResponse(beer));
 	}
 
+	
+	@PatchMapping("/{beerId}")
+	public ResponseEntity<?> updateNameBeer(@PathVariable Long beerId, @RequestBody Map<String, Object> fields) {
+		service.updatePartialContent(beerId, fields);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@DeleteMapping("/{beerId}")
 	public ResponseEntity<BeerResponse> deleteBeerById(@PathVariable Long beerId) {
 		if (service.deleteBeerById(beerId)) {
@@ -80,3 +89,21 @@ public class BeerResource {
 		return ResponseEntity.notFound().build();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
