@@ -3,12 +3,15 @@ package com.beerhouse.domain.services;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.beerhouse.api.resources.http.request.BeerRequest;
 import com.beerhouse.api.resources.http.response.BeerResponse;
 import com.beerhouse.domain.models.Beer;
 import com.beerhouse.domain.repositories.IBeerRespository;
@@ -37,6 +40,13 @@ public class BeerService {
 		}
 		
 		throw new EntityNotFoundException("Beer not found");
+	}
+
+	@Transactional
+	public Beer create(BeerRequest beerRequest) {
+		Beer beer = beerRequest.convert();
+		repository.save(beer);
+		return beer;
 	}
 	
 	

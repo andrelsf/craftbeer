@@ -17,7 +17,7 @@ public class BeerResponse {
 	private String alcoholContent;
 	private BigDecimal price;
 	private String category;
-	
+
 	public BeerResponse(Beer beer) {
 		this.beerId = beer.getBeerId();
 		this.name = beer.getName();
@@ -26,7 +26,7 @@ public class BeerResponse {
 		this.price = beer.getPrice();
 		this.category = beer.getCategory().toString();
 	}
-	
+
 	public static Page<BeerResponse> convert(Page<Beer> beers) {
 		return beers.map(BeerResponse::new);
 	}
