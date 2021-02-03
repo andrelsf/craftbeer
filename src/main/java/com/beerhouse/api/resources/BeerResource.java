@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,7 @@ public class BeerResource {
 	private BeerService service;
 
 	@GetMapping
-	public Page<BeerResponse> getAll(@RequestParam(required = false) String name,
+	public Page<BeerResponse> getAllBeers(@RequestParam(required = false) String name,
 			@PageableDefault(sort = "beerId", direction = Direction.ASC, page = 0, size = 10) Pageable pageable) {
 		if (name == null) {
 			Page<BeerResponse> beers = service.findAll(pageable);
@@ -61,33 +62,21 @@ public class BeerResource {
 
 		return ResponseEntity.created(uriLocation).body(new BeerResponse(beer));
 	}
-	
+
+	@PutMapping("/{beerId}")
+	public ResponseEntity<BeerResponse> updateBeerById(@PathVariable Long beerId,
+			@RequestBody @Valid BeerRequest beerRequest) {
+		Beer beer = service.updateBeerById(beerId, beerRequest);
+
+		return ResponseEntity.ok(new BeerResponse(beer));
+	}
+
 	@DeleteMapping("/{beerId}")
 	public ResponseEntity<BeerResponse> deleteBeerById(@PathVariable Long beerId) {
 		if (service.deleteBeerById(beerId)) {
 			return ResponseEntity.ok().build();
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

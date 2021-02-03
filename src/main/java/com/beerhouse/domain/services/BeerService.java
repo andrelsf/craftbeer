@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.beerhouse.api.resources.http.request.BeerRequest;
 import com.beerhouse.api.resources.http.response.BeerResponse;
 import com.beerhouse.domain.models.Beer;
+import com.beerhouse.domain.models.Category;
 import com.beerhouse.domain.repositories.IBeerRespository;
 
 @Service
@@ -49,6 +51,7 @@ public class BeerService {
 		return beer;
 	}
 
+	@Transactional
 	public boolean deleteBeerById(Long beerId) {
 		Optional<Beer>  beer = repository.findById(beerId);
 		
@@ -58,6 +61,19 @@ public class BeerService {
 		}
 		
 		return false;
+	}
+
+	@Transactional
+	public Beer updateBeerById(Long beerId, @Valid BeerRequest beerRequest) {
+		Beer beer = repository.getOne(beerId);
+		
+		if (beer != null) {
+			BeanUtils.copyProperties(beerRequest, beer, "beerId", "category");
+			beer.setCategory(Category.valueOf(beerRequest.getCategory()));
+			return beer;
+		}
+		
+		throw new EntityNotFoundException("Beer not found");
 	}
 	
 	
