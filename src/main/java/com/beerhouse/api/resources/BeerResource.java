@@ -3,6 +3,7 @@ package com.beerhouse.api.resources;
 import java.net.URI;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,15 @@ public class BeerResource {
 	@Autowired
 	private BeerService service;
 
+	/**
+	 * Collection Resource
+	 * List of all paginated resource
+	 * By default page 0 of size 10
+	 * 
+	 * @param name optional
+	 * @param pageable
+	 * @return Page<BeerResponse>
+	 */
 	@GetMapping
 	public Page<BeerResponse> getAllBeers(@RequestParam(required = false) String name,
 			@PageableDefault(sort = "beerId", direction = Direction.ASC, page = 0, size = 10) Pageable pageable) {
@@ -47,13 +57,28 @@ public class BeerResource {
 		return beers;
 	}
 
+	/**
+	 * Single-resource
+	 * Get single resource by id.
+	 * 
+	 * @param beerId
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
 	@GetMapping("/{beerId}")
-	public ResponseEntity<BeerResponse> getBeerById(@PathVariable Long beerId) {
+	public ResponseEntity<BeerResponse> getBeerById(@PathVariable Long beerId) throws EntityNotFoundException {
 		Beer beer = service.getBeerById(beerId);
 
 		return ResponseEntity.ok(new BeerResponse(beer));
 	}
 
+	/**
+	 * Add new resource
+	 * 
+	 * @param beerRequest
+	 * @param uriBuilder
+	 * @return ResponseEntity<BeerResponse>
+	 */
 	@PostMapping
 	public ResponseEntity<BeerResponse> create(@RequestBody @Valid BeerRequest beerRequest,
 			UriComponentsBuilder uriBuilder) {
@@ -65,23 +90,44 @@ public class BeerResource {
 		return ResponseEntity.created(uriLocation).body(new BeerResponse(beer));
 	}
 
+	/**
+	 * Update single resource by id
+	 * 
+	 * @param beerId
+	 * @param beerRequest
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
 	@PutMapping("/{beerId}")
 	public ResponseEntity<BeerResponse> updateBeerById(@PathVariable Long beerId,
-			@RequestBody @Valid BeerRequest beerRequest) {
+			@RequestBody @Valid BeerRequest beerRequest) throws EntityNotFoundException {
 		Beer beer = service.updateBeerById(beerId, beerRequest);
 
 		return ResponseEntity.ok(new BeerResponse(beer));
 	}
 
-	
+	/**
+	 * Update partial content of a resource 
+	 * 
+	 * @param beerId
+	 * @param fields
+	 * @return ResponseEntity<?>
+	 */
 	@PatchMapping("/{beerId}")
 	public ResponseEntity<?> updateNameBeer(@PathVariable Long beerId, @RequestBody Map<String, Object> fields) {
 		service.updatePartialContent(beerId, fields);
 		return ResponseEntity.noContent().build();
 	}
 	
+	/**
+	 * Removes a resource by id
+	 * 
+	 * @param beerId
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
 	@DeleteMapping("/{beerId}")
-	public ResponseEntity<BeerResponse> deleteBeerById(@PathVariable Long beerId) {
+	public ResponseEntity<BeerResponse> deleteBeerById(@PathVariable Long beerId) throws EntityNotFoundException {
 		if (service.deleteBeerById(beerId)) {
 			return ResponseEntity.ok().build();
 		}
