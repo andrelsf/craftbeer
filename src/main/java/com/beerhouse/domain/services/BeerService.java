@@ -60,11 +60,11 @@ public class BeerService {
 	 */
 	public Beer getBeerById(Long beerId) {
 		Optional<Beer> beer = repository.findById(beerId);
-		
+
 		if (beer.isPresent()) {
 			return beer.get();
 		}
-		
+
 		throw new EntityNotFoundException("Beer not found by id: " + beerId);
 	}
 
@@ -89,13 +89,13 @@ public class BeerService {
 	 */
 	@Transactional
 	public boolean deleteBeerById(Long beerId) {
-		Optional<Beer>  beer = repository.findById(beerId);
-		
+		Optional<Beer> beer = repository.findById(beerId);
+
 		if (beer.isPresent()) {
 			repository.deleteById(beerId);
-			return true;			
+			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -109,17 +109,16 @@ public class BeerService {
 	 */
 	@Transactional
 	public Beer updateBeerById(Long beerId, BeerRequest beerRequest) {
-		Beer beer = repository.getOne(beerId);
-		
-		if (beer != null) {
-			BeanUtils.copyProperties(beerRequest, beer, "beerId", "category");
-			beer.setCategory(Category.valueOf(beerRequest.getCategory()));
-			return beer;
+		Optional<Beer> beer = repository.findById(beerId);
+
+		if (beer.isPresent()) {
+			BeanUtils.copyProperties(beerRequest, beer.get(), "beerId", "category");
+			beer.get().setCategory(Category.valueOf(beerRequest.getCategory()));
+			return beer.get();
 		}
-		
+
 		throw new EntityNotFoundException("Beer not found by id: " + beerId);
 	}
-
 
 	/**
 	 * Updates partial content of a beer by id
@@ -131,19 +130,21 @@ public class BeerService {
 	@Transactional
 	public Beer updatePartialContent(Long beerId, Map<String, Object> fields) {
 		Optional<Beer> beer = repository.findById(beerId);
-		
+
 		if (beer.isPresent()) {
 			this.merge(fields, beer.get());
 			return beer.get();
 		}
-		
+
 		throw new EntityNotFoundException("Beer not found by id: " + beerId);
 	}
-	
+
 	/**
-	 * Used by the updatePartialContent method to identify received attributes and apply values to the entity
+	 * Used by the updatePartialContent method to identify received attributes and
+	 * apply values to the entity
 	 * 
-	 * An UnrecognizedPropertyException exception can be thrown if the mapping key does not match the class attribute name
+	 * An UnrecognizedPropertyException exception can be thrown if the mapping key
+	 * does not match the class attribute name
 	 * 
 	 * @throws UnrecognizedPropertyException
 	 * @param sourceData
@@ -152,7 +153,7 @@ public class BeerService {
 	private void merge(Map<String, Object> sourceData, Beer beerTarget) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Beer sourceBeer = objectMapper.convertValue(sourceData, Beer.class);
-		
+
 		sourceData.forEach((atribute, value) -> {
 			Field field = ReflectionUtils.findField(Beer.class, atribute);
 			field.setAccessible(true);
