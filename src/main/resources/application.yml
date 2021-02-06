@@ -12,9 +12,10 @@ spring:
     username: postgres
     password: p0stgr3s
   flyway:
-     user: postgres
-     password: p0stgr3s
-     schemas: public
+    user: postgres
+    password: p0stgr3s
+    schemas: public
+    locations: classpath:db/migration
   jpa:
     generate-ddl: false
     hibernate:

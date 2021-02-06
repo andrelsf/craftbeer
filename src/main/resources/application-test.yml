@@ -1,0 +1,36 @@
+server:
+  port: 9001
+  context-path: /beerhouse
+
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active:
+    - test
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://10.62.0.254/craftbeer_test
+    username: postgres
+    password: p0stgr3s
+  flyway:
+     user: postgres
+     password: p0stgr3s
+     schemas: public
+     locations: classpath:db/test
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+logging:
+  level:
+    root: OFF
+    #'[org.springframework.web]': OFF
+    
+# logging.level.org.springframework.web=OFF
+# spring.main.banner-mode=off

@@ -10,6 +10,7 @@ import com.beerhouse.domain.models.Beer;
 @Repository
 public interface IBeerRespository extends JpaRepository<Beer, Long>{
 
+	//@Query("SELECT beer_id, name, ingredients, alcohol_content, price, category FROM Beer b WHERE b.name LIKE '%:title%'")
 	Page<Beer> findByNameContaining(String name, Pageable pageable);
 
 }

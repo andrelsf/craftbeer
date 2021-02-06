@@ -1,5 +1,6 @@
 package com.beerhouse.api.resources;
 
+import static com.beerhouse.api.resources.BaseResource.BEERS_V1;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.net.URI;
@@ -9,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -32,7 +34,8 @@ import com.beerhouse.domain.models.Beer;
 import com.beerhouse.domain.services.BeerService;
 
 @RestController
-@RequestMapping(value = BaseResource.BEER_V1, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+@Profile(value = {"dev", "test"})
+@RequestMapping(value = BEERS_V1, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 public class BeerResource {
 
 	@Autowired
@@ -84,7 +87,7 @@ public class BeerResource {
 			UriComponentsBuilder uriBuilder) {
 		Beer beer = service.create(beerRequest);
 
-		URI uriLocation = uriBuilder.path(BaseResource.BEER_V1 + "/{beerId}")
+		URI uriLocation = uriBuilder.path(BEERS_V1 + "/{beerId}")
 				.buildAndExpand(beer.getBeerId().toString()).toUri();
 
 		return ResponseEntity.created(uriLocation).body(new BeerResponse(beer));
@@ -95,15 +98,15 @@ public class BeerResource {
 	 * 
 	 * @param beerId
 	 * @param beerRequest
-	 * @return
+	 * @return NO_CONTENT 409
 	 * @throws EntityNotFoundException
 	 */
 	@PutMapping("/{beerId}")
-	public ResponseEntity<BeerResponse> updateBeerById(@PathVariable Long beerId,
+	public ResponseEntity<?> updateBeerById(@PathVariable Long beerId,
 			@RequestBody @Valid BeerRequest beerRequest) throws EntityNotFoundException {
-		Beer beer = service.updateBeerById(beerId, beerRequest);
+		service.updateBeerById(beerId, beerRequest);
 
-		return ResponseEntity.ok(new BeerResponse(beer));
+		return ResponseEntity.noContent().build();
 	}
 
 	/**
@@ -129,7 +132,7 @@ public class BeerResource {
 	@DeleteMapping("/{beerId}")
 	public ResponseEntity<BeerResponse> deleteBeerById(@PathVariable Long beerId) throws EntityNotFoundException {
 		if (service.deleteBeerById(beerId)) {
-			return ResponseEntity.ok().build();
+			return ResponseEntity.noContent().build();
 		}
 
 		return ResponseEntity.notFound().build();
