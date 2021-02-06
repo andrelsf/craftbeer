@@ -1,7 +1,5 @@
 FROM    openjdk:8u282-jre-slim
 
-#8u282-jre-buster
-
 ENV     LANG pt_BR.UTF-8  
 ENV     LANGUAGE pt_BR:pt_BR  
 ENV     LC_ALL pt_BR.UTF-8

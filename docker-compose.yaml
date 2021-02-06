@@ -20,6 +20,8 @@ services:
       context: ./
       dockerfile: Dockerfile
     command: "java -jar -Xmx512m -Dserver.port=9000 -Duser.timezone=\"America/Sao_Paulo\" /app/craft-beer-1.0.jar"
+    ports:
+      - 9000:9000
     expose:
       - 9000
     links:
