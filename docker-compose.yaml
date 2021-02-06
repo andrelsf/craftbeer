@@ -10,9 +10,31 @@ networks:
         - subnet: 10.62.0.0/24
 
 services:
+  api:
+    labels:
+      br.dev.andreferreira.author: "Andre Ferreira <andre.dev.linux@gmail.com>"
+      br.dev.andreferreira.description: "Craftbeer Spring Boot Rest API"
+      br.dev.andreferreira.license: "MIT"
+    hostname: api-craft-beer
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: "java -jar -Xmx512m -Dserver.port=9000 -Duser.timezone=\"America/Sao_Paulo\" /app/craft-beer-1.0.jar"
+    expose:
+      - 9000
+    links:
+      - postgresql
+    depends_on:
+      - postgresql
+    restart:
+      on-failure
+    networks:
+      net-craftbeer:
+        ipv4_address: "10.62.0.253"
+
   postgresql:
     labels:
-      br.dev.andreferreira.author: "Andre Ferreira"
+      br.dev.andreferreira.author: "Andre Ferreira <andre.dev.linux@gmail.com>"
       br.dev.andreferreira.description: "Database PostgreSQL Server 13.1 Alpine"
       br.dev.andreferreira.license: "MIT"
     hostname: postgresql-server
